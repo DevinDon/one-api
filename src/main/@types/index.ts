@@ -25,15 +25,20 @@ export interface Editor {
   email: string;
 }
 
+export interface User {
+  id: number;
+  head: string;
+  name: string;
+}
+
 export interface Comment {
   id: number;
   content: string;
   date: string;
-  head: string;
-  host: boolean;
-  name: string;
+  hot: boolean;
+  like: number;
   quote: string;
-  user: number;
+  user: User;
 }
 
 export interface Base {

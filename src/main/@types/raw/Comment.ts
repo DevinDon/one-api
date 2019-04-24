@@ -1,16 +1,16 @@
-export interface User {
+interface User {
   user_id: string;
   user_name: string;
   web_url: string;
 }
 
-export interface Touser {
+interface Touser {
   user_id: string;
   user_name: string;
   web_url: string;
 }
 
-export interface Datum {
+export interface CommentData {
   id: string;
   quote: string;
   content: string;
@@ -27,7 +27,7 @@ export interface Datum {
   type: number;
 }
 
-export interface CommentDate {
+export interface RawComment {
   count: number;
-  data: Datum[];
+  data: CommentData[];
 }

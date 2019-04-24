@@ -41,8 +41,8 @@ export interface Comment {
   user: User;
 }
 
-export interface Base {
-  id: number;
+export interface Index<T> {
+  index: number;
   category: Category;
   comments: Comment[];
   date: string;
@@ -52,6 +52,7 @@ export interface Base {
   share: number;
   stamp: number;
   url: string;
+  content: T;
 }
 
 export interface Article {

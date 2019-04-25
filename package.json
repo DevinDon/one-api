@@ -1,12 +1,10 @@
 {
-  "name": "one-api",
-  "version": "0.0.0",
+  "name": "@iinfinity/one-api",
+  "version": "0.1.0",
   "description": "One API.",
-  "main": "dist/index.js",
+  "main": "index.js",
   "directories": {
-    "doc": "docs",
-    "example": "src/demo",
-    "test": "src/test"
+    "doc": "docs"
   },
   "scripts": {
     "build": "tsc",
@@ -37,10 +35,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DevinDon/ts-template.git"
+    "url": "git+https://github.com/DevinDon/one-api.git"
   },
   "bugs": {
-    "url": "https://github.com/DevinDon/ts-template/issues"
+    "url": "https://github.com/DevinDon/one-api/issues"
   },
-  "homepage": "https://github.com/DevinDon/ts-template"
+  "homepage": "https://github.com/DevinDon/one-api"
 }

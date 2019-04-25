@@ -31,7 +31,7 @@ export async function getArticle(id: number): Promise<Index<Article>> {
         id: Number(detail.author[0].user_id),
         desc: detail.author[0].desc,
         fans: Number(detail.author[0].fans_total),
-        head: detail.author[0].web_url,
+        head: Buffer.from(detail.author[0].web_url).toString('base64'),
         name: detail.author[0].user_name,
         summary: detail.author[0].summary,
         weibo: detail.author[0].wb_name
@@ -60,11 +60,12 @@ export async function getComments(type: Category, id: number): Promise<Comment[]
       content: v.content,
       date: new Date(v.input_date).toISOString(),
       hot: Boolean(v.type),
+      index: id,
       like: v.praisenum,
       quote: v.quote,
       user: {
         id: Number(v.user.user_id),
-        head: v.user.web_url,
+        head: Buffer.from(v.user.web_url).toString('base64'),
         name: v.user.user_name
       }
     });

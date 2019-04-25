@@ -35,6 +35,7 @@ export interface Comment {
   content: string;
   date: string;
   hot: boolean;
+  index: number;
   like: number;
   quote: string;
   user: User;

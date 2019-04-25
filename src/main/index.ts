@@ -1,2 +1,4 @@
+import OneAPI from './OneAPI';
+
 export * from './@types';
-export * from './OneAPI';
+export default OneAPI;

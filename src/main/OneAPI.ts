@@ -1,6 +1,6 @@
 import Axios from 'axios';
-import { Article, Category, Resp, ArticleData, Index, CommentData, RawComment, Comment } from './@types';
 import { JSDOM } from 'jsdom';
+import { Article, ArticleData, Category, Comment, CommentData, Index, RawComment, Resp } from './@types';
 
 const host = 'http://v3.wufazhuce.com:8000/api';
 
@@ -76,9 +76,3 @@ export async function getComments(type: Category, id: number): Promise<Comment[]
 export function getVersion(): string {
   return 'v4.x';
 }
-
-export default {
-  getArticle,
-  getComments,
-  getVersion
-};

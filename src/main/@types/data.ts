@@ -1,4 +1,3 @@
-
 export enum Category {
   picture = 'hp',
   article = 'essay',

@@ -1,4 +1,10 @@
-import OneAPI from './OneAPI';
+import { getArticle, getComments, getDetail, getVersion } from './OneAPI';
 
 export * from './@types';
-export default OneAPI;
+
+export default {
+  getArticle,
+  getComments,
+  getDetail,
+  getVersion
+};

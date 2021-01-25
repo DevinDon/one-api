@@ -8,6 +8,10 @@ export async function getDetail<T>(type: Category, id: number): Promise<T> {
   return (await Axios.get<Resp<T>>(`${HOST}/${type}/detail/${id}`)).data.data;
 }
 
+export async function getArticleData(id: number): Promise<Article> {
+  return getDetail<Article>(Category.article, id);
+}
+
 export async function getArticle(id: number): Promise<Index<Article>> {
   const detail = await getDetail<ArticleData>(Category.article, id);
   const index: Index<Article> = {

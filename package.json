@@ -7,10 +7,19 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "tsc",
-    "debug": "node -r ts-node/register --inspect-brk src/main/index.ts",
-    "start": "npm run dist",
-    "test": "node node_modules/jasmine/bin/jasmine.js --config=jasmine.json --reporter=jasmine-console-reporter --require=ts-node/register"
+    "build": "bash script/build.sh",
+    "clean": "bash script/clean.sh",
+    "lint": "eslint .",
+    "pack": "npm run build && npm run push",
+    "push": "bash script/push.sh",
+    "prepublishOnly": "npm run clean && tsc",
+    "start": "npm run start:dev",
+    "start:debug": "node --inspect-brk -r ts-node/register src/main/index.ts",
+    "start:demo": "cross-env MODE=DEV node -r ts-node/register src/demo/index.ts",
+    "start:dev": "cross-env MODE=DEV node -r ts-node/register src/main/index.ts",
+    "start:prod": "npm run build && cross-env MODE=PROD node dist",
+    "test": "node node_modules/jasmine/bin/jasmine.js --config=src/test/jasmine.json --reporter=jasmine-console-reporter --require=ts-node/register",
+    "watch": "tsc -w"
   },
   "keywords": [
     "typescript",
@@ -21,17 +30,17 @@
   "private": true,
   "dependencies": {
     "@iinfinity/logger": "0.x",
-    "axios": "^0.18.0",
-    "jsdom": "^15.0.0"
+    "axios": "^0.21.1",
+    "jsdom": "^16.4.0"
   },
   "devDependencies": {
     "@types/jasmine": "3.x",
-    "@types/jsdom": "^12.2.3",
-    "@types/node": "11.x",
+    "@types/jsdom": "^16.2.6",
+    "@types/node": "14.x",
     "jasmine": "3.x",
     "jasmine-console-reporter": "3.x",
-    "ts-node": "8.x",
-    "typescript": "3.x"
+    "ts-node": "9.x",
+    "typescript": "4.x"
   },
   "repository": {
     "type": "git",

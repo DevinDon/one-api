@@ -59,6 +59,6 @@ export interface Article {
   audio: string;
   author: Author;
   summary: string;
-  text: string;
+  content: string;
   title: string;
 }

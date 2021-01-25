@@ -1,11 +1,11 @@
 import Axios from 'axios';
-import { JSDOM } from 'jsdom';
-import { Article, ArticleData, Category, Comment, CommentData, Index, CommentListData, Resp } from './interfaces';
+import { Article, ArticleData, Category, Comment, CommentData, CommentListData, Index, Resp } from './interfaces';
+import * as html2md from 'html-to-md';
 
-const host = 'http://v3.wufazhuce.com:8000/api';
+const HOST = 'http://v3.wufazhuce.com:8000/api';
 
 export async function getDetail<T>(type: Category, id: number): Promise<T> {
-  return (await Axios.get<Resp<T>>(`${host}/${type}/detail/${id}`)).data.data;
+  return (await Axios.get<Resp<T>>(`${HOST}/${type}/detail/${id}`)).data.data;
 }
 
 export async function getArticle(id: number): Promise<Index<Article>> {
@@ -37,7 +37,7 @@ export async function getArticle(id: number): Promise<Index<Article>> {
         weibo: detail.author[0].wb_name
       },
       summary: detail.guide_word,
-      text: new JSDOM(`<!DOCTYPE html><html><body>${detail.hp_content}</body></html>`).window.document.body.textContent!.trim(),
+      content: html2md(detail.hp_content).trim(),
       title: detail.hp_title
     }
   };
@@ -49,7 +49,7 @@ export async function getComments(type: Category, id: number): Promise<Comment[]
   let data: CommentData[] = [];
   let index = 0;
   do {
-    data = (await Axios.get<Resp<CommentListData>>(`${host}/comment/praiseandtime/${type}/${id}/${index}`)).data.data.data;
+    data = (await Axios.get<Resp<CommentListData>>(`${HOST}/comment/praiseandtime/${type}/${id}/${index}`)).data.data.data;
     index = data.length ? Number(data[data.length - 1].id) : 0;
     raw = raw.concat(data);
   } while (index);
@@ -74,5 +74,5 @@ export async function getComments(type: Category, id: number): Promise<Comment[]
 }
 
 export function getVersion(): string {
-  return 'v4.x';
+  return '0.2.0';
 }

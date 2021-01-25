@@ -29,13 +29,12 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@iinfinity/logger": "0.x",
+    "@iinfinity/logger": "^0.3.4",
     "axios": "^0.21.1",
-    "jsdom": "^16.4.0"
+    "html-to-md": "^0.3.6"
   },
   "devDependencies": {
     "@types/jasmine": "3.x",
-    "@types/jsdom": "^16.2.6",
     "@types/node": "14.x",
     "@typescript-eslint/eslint-plugin": "^4.14.0",
     "@typescript-eslint/parser": "^4.14.0",

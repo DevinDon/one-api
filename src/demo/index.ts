@@ -1,9 +1,10 @@
-import API, { Category } from '../main';
+import { Category, getArticle, getComments } from '../main';
+import { logger } from '@iinfinity/logger';
 
-async function run() {
-  const article = await API.getArticle(3795);
-  const comments = await API.getComments(Category.article, 3795);
-  console.log('ALL DONE');
-}
-
-run();
+(async () => {
+  const id = 3795;
+  const article = await getArticle(id);
+  logger.debug(`fetched article ${id}, content:\n`, article);
+  const comments = await getComments(Category.article, id);
+  logger.debug(`fetched comments of article ${id}, content:\n`, comments.length);
+})();

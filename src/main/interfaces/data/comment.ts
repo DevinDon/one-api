@@ -27,7 +27,7 @@ export interface CommentData {
   type: number;
 }
 
-export interface RawComment {
+export interface CommentListData {
   count: number;
   data: CommentData[];
 }

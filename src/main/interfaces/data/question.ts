@@ -1,3 +1,5 @@
+import { AuthorListData, ShareListData } from './common';
+
 export interface Answerer {
   user_id: string;
   user_name: string;
@@ -22,18 +24,6 @@ export interface Asker {
   wb_name: string;
 }
 
-export interface AuthorList {
-  user_id: string;
-  user_name: string;
-  web_url: string;
-  summary: string;
-  desc: string;
-  is_settled: string;
-  settled_type: string;
-  fans_total: string;
-  wb_name: string;
-}
-
 export interface AskerList {
   user_id: string;
   user_name: string;
@@ -46,46 +36,7 @@ export interface AskerList {
   wb_name: string;
 }
 
-export interface Wx {
-  title: string;
-  desc: string;
-  link: string;
-  imgUrl: string;
-  audio: string;
-}
-
-export interface WxTimeline {
-  title: string;
-  desc: string;
-  link: string;
-  imgUrl: string;
-  audio: string;
-}
-
-export interface Weibo {
-  title: string;
-  desc: string;
-  link: string;
-  imgUrl: string;
-  audio: string;
-}
-
-export interface Qq {
-  title: string;
-  desc: string;
-  link: string;
-  imgUrl: string;
-  audio: string;
-}
-
-export interface ShareList {
-  wx: Wx;
-  wx_timeline: WxTimeline;
-  weibo: Weibo;
-  qq: Qq;
-}
-
-export interface Data {
+export interface QuestionData {
   question_id: string;
   question_title: string;
   question_content: string;
@@ -110,18 +61,18 @@ export interface Data {
   audio_duration: string;
   answerer: Answerer;
   asker: Asker;
-  author_list: AuthorList[];
+  author_list: AuthorListData[];
   asker_list: AskerList[];
   next_id: string;
   previous_id: string;
   tag_list: any[];
-  share_list: ShareList;
+  share_list: ShareListData;
   praisenum: number;
   sharenum: number;
   commentnum: number;
 }
 
-export interface Question {
+export interface QuestionListData {
   res: number;
-  data: Data;
+  data: QuestionData;
 }

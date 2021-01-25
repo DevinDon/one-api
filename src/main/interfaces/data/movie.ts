@@ -1,43 +1,6 @@
-export interface Wx {
-  title: string;
-  desc: string;
-  link: string;
-  imgUrl: string;
-  audio: string;
-}
+import { ShareListData } from './common';
 
-export interface WxTimeline {
-  title: string;
-  desc: string;
-  link: string;
-  imgUrl: string;
-  audio: string;
-}
-
-export interface Weibo {
-  title: string;
-  desc: string;
-  link: string;
-  imgUrl: string;
-  audio: string;
-}
-
-export interface Qq {
-  title: string;
-  desc: string;
-  link: string;
-  imgUrl: string;
-  audio: string;
-}
-
-export interface ShareList {
-  wx: Wx;
-  wx_timeline: WxTimeline;
-  weibo: Weibo;
-  qq: Qq;
-}
-
-export interface Data {
+export interface MovieData {
   id: string;
   title: string;
   indexcover: string;
@@ -73,13 +36,13 @@ export interface Data {
   next_id: string;
   previous_id: string;
   tag_list: any[];
-  share_list: ShareList;
+  share_list: ShareListData;
   sharenum: number;
   commentnum: number;
   servertime: number;
 }
 
-export interface Movie {
+export interface MovieListData {
   res: number;
-  data: Data;
+  data: MovieData;
 }

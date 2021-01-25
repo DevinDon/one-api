@@ -1,6 +1,6 @@
-import { getArticle, getComments, getDetail, getVersion } from './OneAPI';
+import { getArticle, getComments, getDetail, getVersion } from './one-api';
 
-export * from './@types';
+export * from './interfaces';
 
 export default {
   getArticle,

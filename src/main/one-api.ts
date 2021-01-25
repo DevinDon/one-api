@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import { JSDOM } from 'jsdom';
-import { Article, ArticleData, Category, Comment, CommentData, Index, RawComment, Resp } from './@types';
+import { Article, ArticleData, Category, Comment, CommentData, Index, CommentListData, Resp } from './interfaces';
 
 const host = 'http://v3.wufazhuce.com:8000/api';
 
@@ -49,7 +49,7 @@ export async function getComments(type: Category, id: number): Promise<Comment[]
   let data: CommentData[] = [];
   let index = 0;
   do {
-    data = (await Axios.get<Resp<RawComment>>(`${host}/comment/praiseandtime/${type}/${id}/${index}`)).data.data.data;
+    data = (await Axios.get<Resp<CommentListData>>(`${host}/comment/praiseandtime/${type}/${id}/${index}`)).data.data.data;
     index = data.length ? Number(data[data.length - 1].id) : 0;
     raw = raw.concat(data);
   } while (index);

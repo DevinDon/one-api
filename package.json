@@ -1,11 +1,15 @@
 {
   "name": "@iinfinity/one-api",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "One API.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "directories": {
     "doc": "docs"
   },
+  "files": [
+    "dist",
+    "docs"
+  ],
   "scripts": {
     "build": "bash script/build.sh",
     "clean": "bash script/clean.sh",
@@ -27,7 +31,7 @@
   ],
   "author": "IInfinity <I.INF@Outlook.com> (https://don.red/)",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@iinfinity/logger": "^0.3.4",
     "axios": "^0.21.1",

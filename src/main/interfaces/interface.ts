@@ -49,7 +49,7 @@ export interface Index<T> {
   like: number;
   read: number;
   share: number;
-  stamp: number;
+  comment: number;
   url: string;
   content: T;
 }
@@ -58,7 +58,15 @@ export interface Article {
   anchor: string;
   audio: string;
   author: Author;
-  summary: string;
   content: string;
+  summary: string;
   title: string;
+}
+
+export interface Movie {
+  title: string;
+  cover: string;
+  image: string;
+  video: string;
+  keyworks: string;
 }

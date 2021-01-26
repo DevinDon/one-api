@@ -1,6 +1,7 @@
 import Axios from 'axios';
-import { Article, ArticleData, Category, Comment, CommentData, CommentListData, Index, MovieData, MusicData, PictureData, QuestionData, Resp } from './interfaces';
+import { Article, ArticleData, Category, Comment, CommentData, CommentListData, Index, MovieData, MusicData, PictureData, QuestionData, Resp, Movie } from './interfaces';
 import * as html2md from 'html-to-md';
+import { parseEditorEmail, parseEditorName } from './utils';
 
 const HOST = 'http://v3.wufazhuce.com:8000/api';
 
@@ -17,42 +18,6 @@ export const fetchMusicData = async (id: number): Promise<MusicData> => fetchDet
 export const fetchPictureData = async (id: number): Promise<PictureData> => fetchDetail(Category.Picture, id);
 
 export const fetchQuestionData = async (id: number): Promise<QuestionData> => fetchDetail(Category.Question, id);
-
-export const fetchArticle = async (id: number): Promise<Index<Article>> => {
-  const detail = await fetchDetail<ArticleData>(Category.Article, id);
-  const index: Index<Article> = {
-    index: id,
-    category: Category.Article,
-    comments: await fetchComments(Category.Article, id),
-    date: new Date(detail.maketime).toISOString(),
-    editor: {
-      name: /（?责任编辑：(.*) .*）?/.exec(detail.hp_author_introduce)![1],
-      email: detail.editor_email
-    },
-    like: detail.praisenum,
-    read: 0,
-    share: detail.sharenum,
-    stamp: Date.now(),
-    url: detail.web_url,
-    content: {
-      anchor: detail.anchor.replace('朗读者-', ''),
-      audio: detail.audio,
-      author: {
-        id: Number(detail.author[0].user_id),
-        desc: detail.author[0].desc,
-        fans: Number(detail.author[0].fans_total),
-        head: Buffer.from(detail.author[0].web_url).toString('base64'),
-        name: detail.author[0].user_name,
-        summary: detail.author[0].summary,
-        weibo: detail.author[0].wb_name
-      },
-      summary: detail.guide_word,
-      content: html2md(detail.hp_content).trim(),
-      title: detail.hp_title
-    }
-  };
-  return index;
-};
 
 export const fetchComments = async (type: Category, id: number): Promise<Comment[]> => {
   let raw: CommentData[] = [];
@@ -78,11 +43,74 @@ export const fetchComments = async (type: Category, id: number): Promise<Comment
       user: {
         id: Number(v.user.user_id),
         head: Buffer.from(v.user.web_url).toString('base64'),
-        name: v.user.user_name
-      }
+        name: v.user.user_name,
+      },
     });
   });
   return comments;
+};
+
+export const fetchArticle = async (id: number): Promise<Index<Article>> => {
+  const detail = await fetchArticleData(id);
+  const index: Index<Article> = {
+    index: id,
+    category: Category.Article,
+    comments: await fetchComments(Category.Article, id),
+    date: new Date(detail.maketime).toISOString(),
+    editor: {
+      name: parseEditorName(detail.hp_author_introduce),
+      email: parseEditorEmail(detail.hp_author_introduce),
+    },
+    like: +(detail.praisenum || 0),
+    read: +(detail?.read_num || 0),
+    share: +(detail.sharenum || 0),
+    comment: +(detail.commentnum || 0),
+    url: detail.web_url,
+    content: {
+      anchor: detail.anchor.replace('朗读者-', ''),
+      audio: detail.audio,
+      author: {
+        id: Number(detail.author[0].user_id),
+        desc: detail.author[0].desc,
+        fans: Number(detail.author[0].fans_total),
+        head: Buffer.from(detail.author[0].web_url).toString('base64'),
+        name: detail.author[0].user_name,
+        summary: detail.author[0].summary,
+        weibo: detail.author[0].wb_name
+      },
+      content: html2md(detail.hp_content).trim(),
+      summary: detail.guide_word,
+      title: detail.hp_title,
+    },
+  };
+  return index;
+};
+
+export const fetchMovie = async (id: number): Promise<Index<Movie>> => {
+  const detail = await fetchMovieData(id);
+  const index: Index<Movie> = {
+    index: id,
+    category: Category.Movie,
+    comments: await fetchComments(Category.Movie, id),
+    date: new Date(detail.maketime).toISOString(),
+    editor: {
+      name: parseEditorName(detail.charge_edt),
+      email: parseEditorEmail(detail.charge_edt),
+    },
+    like: +(detail.praisenum || 0),
+    read: +(detail.read_num || 0),
+    share: +(detail.sharenum || 0),
+    comment: +(detail.commentnum || 0),
+    url: detail.web_url,
+    content: {
+      title: detail.title,
+      cover: detail.indexcover,
+      image: detail.detailcover,
+      keyworks: detail.keywords,
+      video: detail.video,
+    },
+  };
+  return index;
 };
 
 export const getVersion = () => '0.2.0';

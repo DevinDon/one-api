@@ -18,6 +18,7 @@ export interface ArticleData {
   audio: string;
   anchor: string;
   editor_email: string;
+  read_num: string;
   top_media_type: string;
   top_media_file: string;
   top_media_image: string;

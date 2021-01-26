@@ -1,23 +1,29 @@
 import Axios from 'axios';
-import { Article, ArticleData, Category, Comment, CommentData, CommentListData, Index, Resp } from './interfaces';
+import { Article, ArticleData, Category, Comment, CommentData, CommentListData, Index, MovieData, MusicData, PictureData, QuestionData, Resp } from './interfaces';
 import * as html2md from 'html-to-md';
 
 const HOST = 'http://v3.wufazhuce.com:8000/api';
 
-export async function getDetail<T>(type: Category, id: number): Promise<T> {
-  return (await Axios.get<Resp<T>>(`${HOST}/${type}/detail/${id}`)).data.data;
-}
+export const fetchDetail = async <T>(type: Category, id: number): Promise<T> => Axios
+  .get<Resp<T>>(`${HOST}/${type}/detail/${id}`)
+  .then(response => response.data.data);
 
-export async function getArticleData(id: number): Promise<Article> {
-  return getDetail<Article>(Category.article, id);
-}
+export const fetchArticleData = async (id: number): Promise<ArticleData> => fetchDetail(Category.Article, id);
 
-export async function getArticle(id: number): Promise<Index<Article>> {
-  const detail = await getDetail<ArticleData>(Category.article, id);
+export const fetchMovieData = async (id: number): Promise<MovieData> => fetchDetail(Category.Movie, id);
+
+export const fetchMusicData = async (id: number): Promise<MusicData> => fetchDetail(Category.Music, id);
+
+export const fetchPictureData = async (id: number): Promise<PictureData> => fetchDetail(Category.Picture, id);
+
+export const fetchQuestionData = async (id: number): Promise<QuestionData> => fetchDetail(Category.Question, id);
+
+export const fetchArticle = async (id: number): Promise<Index<Article>> => {
+  const detail = await fetchDetail<ArticleData>(Category.Article, id);
   const index: Index<Article> = {
     index: id,
-    category: Category.article,
-    comments: await getComments(Category.article, id),
+    category: Category.Article,
+    comments: await fetchComments(Category.Article, id),
     date: new Date(detail.maketime).toISOString(),
     editor: {
       name: /（?责任编辑：(.*) .*）?/.exec(detail.hp_author_introduce)![1],
@@ -46,14 +52,16 @@ export async function getArticle(id: number): Promise<Index<Article>> {
     }
   };
   return index;
-}
+};
 
-export async function getComments(type: Category, id: number): Promise<Comment[]> {
+export const fetchComments = async (type: Category, id: number): Promise<Comment[]> => {
   let raw: CommentData[] = [];
   let data: CommentData[] = [];
   let index = 0;
   do {
-    data = (await Axios.get<Resp<CommentListData>>(`${HOST}/comment/praiseandtime/${type}/${id}/${index}`)).data.data.data;
+    data = await Axios
+      .get<Resp<CommentListData>>(`${HOST}/comment/praiseandtime/${type}/${id}/${index}`)
+      .then(response => response.data.data.data);
     index = data.length ? Number(data[data.length - 1].id) : 0;
     raw = raw.concat(data);
   } while (index);
@@ -75,8 +83,6 @@ export async function getComments(type: Category, id: number): Promise<Comment[]
     });
   });
   return comments;
-}
+};
 
-export function getVersion(): string {
-  return '0.2.0';
-}
+export const getVersion = () => '0.2.0';

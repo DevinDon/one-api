@@ -1,11 +1,11 @@
 export enum Category {
-  picture = 'hp',
-  article = 'essay',
-  serial = 'serial',
-  question = 'question',
-  music = 'music',
-  movie = 'movie',
-  radio = 'radio'
+  Picture = 'hp',
+  Article = 'essay',
+  Serial = 'serial',
+  Question = 'question',
+  Music = 'music',
+  Movie = 'movie',
+  Radio = 'radio'
 }
 
 export interface Author {

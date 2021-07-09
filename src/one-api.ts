@@ -1,13 +1,27 @@
-import Axios from 'axios';
-import { Article, ArticleData, Category, Comment, CommentData, CommentListData, Index, MovieData, MusicData, PictureData, QuestionData, Resp, Movie } from './interfaces';
-import * as html2md from 'html-to-md';
+import html2md from 'html-to-md';
+import fetch from 'node-fetch';
+import {
+  Article,
+  ArticleData,
+  Category,
+  Comment,
+  CommentData,
+  CommentListData,
+  Index,
+  Movie,
+  MovieData,
+  MusicData,
+  PictureData,
+  QuestionData,
+  Resp,
+} from './interfaces';
 import { parseEditorEmail, parseEditorName } from './utils';
 
 const HOST = 'http://v3.wufazhuce.com:8000/api';
 
-export const fetchDetail = async <T>(type: Category, id: number): Promise<T> => Axios
-  .get<Resp<T>>(`${HOST}/${type}/detail/${id}`)
-  .then(response => response.data.data);
+export const fetchDetail = async <T>(type: Category, id: number): Promise<T> => fetch(`${HOST}/${type}/detail/${id}`)
+  .then<Resp<T>>(response => response.json())
+  .then(response => response.data);
 
 export const fetchArticleData = async (id: number): Promise<ArticleData> => fetchDetail(Category.Article, id);
 
@@ -24,9 +38,9 @@ export const fetchComments = async (type: Category, id: number): Promise<Comment
   let data: CommentData[] = [];
   let index = 0;
   do {
-    data = await Axios
-      .get<Resp<CommentListData>>(`${HOST}/comment/praiseandtime/${type}/${id}/${index}`)
-      .then(response => response.data.data.data);
+    data = await fetch(`${HOST}/comment/praiseandtime/${type}/${id}/${index}`)
+      .then<Resp<CommentListData>>(response => response.json())
+      .then(response => response.data.data);
     index = data.length ? Number(data[data.length - 1].id) : 0;
     raw = raw.concat(data);
   } while (index);
@@ -76,7 +90,7 @@ export const fetchArticle = async (id: number): Promise<Index<Article>> => {
         head: Buffer.from(detail.author[0].web_url).toString('base64'),
         name: detail.author[0].user_name,
         summary: detail.author[0].summary,
-        weibo: detail.author[0].wb_name
+        weibo: detail.author[0].wb_name,
       },
       content: html2md(detail.hp_content).trim(),
       summary: detail.guide_word,

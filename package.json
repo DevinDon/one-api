@@ -21,6 +21,7 @@
     "lint": "./scripts/lint",
     "pack": "npm run clean && npm run build && npm run push",
     "push": "./scripts/push",
+    "prepublishOnly": "npm run clean && npm run build",
     "service": "./scripts/service",
     "start": "npm run start:dev",
     "start:dev": "MODE=DEV ./scripts/start",
